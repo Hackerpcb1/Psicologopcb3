@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Reserva de Citas - Unidad de Salud Escolar</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <style>
+        #calendar {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">Unidad de Salud Escolar</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="enfermeria.html">Enfermería</a></li>
+                    <li class="nav-item"><a class="nav-link" href="psicologia.html">Psicología</a></li>
+                    <li class="nav-item"><a class="nav-link" href="trabajo_social.html">Trabajo Social</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="citas.html">Citas</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contacto.html">Contacto</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container my-5">
+        <div class="mb-3">
+            <a href="index.html" class="btn btn-secondary">Regresar al Inicio</a>
+        </div>
+        <h1 class="mb-4">Reserva de Citas</h1>
+        <form id="form-cita" class="mb-4">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <label for="tipoServicio" class="form-label">Tipo de Servicio</label>
+                    <select class="form-select" id="tipoServicio" name="tipoServicio" required>
+                        <option value="" disabled selected>Seleccione un servicio</option>
+                        <option value="enfermeria">Enfermería</option>
+                        <option value="psicologia">Psicología</option>
+                        <option value="trabajo_social">Trabajo Social</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="profesional" class="form-label">Profesional</label>
+                    <select class="form-select" id="profesional" name="profesional" required>
+                        <option value="" disabled selected>Seleccione un profesional</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="fechaHora" class="form-label">Fecha y Hora</label>
+                    <input type="datetime-local" class="form-control" id="fechaHora" name="fechaHora" required />
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary mt-3">Reservar Cita</button>
+            <div id="mensaje-cita" class="mt-3"></div>
+        </form>
+
+        <div id="calendar"></div>
+    </main>
+
+    <footer class="bg-light text-center py-4 mt-5">
+        <div class="container">
+            <p class="mb-0">&copy; 2025 Unidad de Salud Escolar. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+    <script src="js/scripts.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const calendarEl = document.getElementById('calendar');
+            const calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                locale: 'es',
+                events: [
+                    // Aquí se pueden cargar eventos de citas desde el backend
+                ]
+            });
+            calendar.render();
+
+            // Lógica para el formulario de cita
+            const formCita = document.getElementById('form-cita');
+            const mensajeDiv = document.getElementById('mensaje-cita');
+            formCita.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const tipoServicio = formCita.tipoServicio.value;
+                const profesional = formCita.profesional.value;
+                const fechaHora = formCita.fechaHora.value;
+
+                if (!tipoServicio || !profesional || !fechaHora) {
+                    mensajeDiv.textContent = 'Por favor, complete todos los campos.';
+                    mensajeDiv.className = 'text-danger';
+                    return;
+                }
+
+                // Aquí se puede agregar la lógica para enviar la cita al backend
+                mensajeDiv.textContent = 'Cita reservada con éxito. Recibirá un correo de confirmación.';
+                mensajeDiv.className = 'text-success';
+
+                // Agregar evento al calendario
+                calendar.addEvent({
+                    title: `${tipoServicio} - ${profesional}`,
+                    start: fechaHora,
+                    allDay: false
+                });
+
+                formCita.reset();
+            });
+
+            // Actualizar profesionales basado en servicio seleccionado
+            const tipoServicioSelect = document.getElementById('tipoServicio');
+            const profesionalSelect = document.getElementById('profesional');
+
+            tipoServicioSelect.addEventListener('change', () => {
+                const servicio = tipoServicioSelect.value;
+                profesionalSelect.innerHTML = '<option value="" disabled selected>Seleccione un profesional</option>';
+                if (servicio === 'enfermeria') {
+                    profesionalSelect.innerHTML += '<option value="enfermera1">Enfermera Ana</option><option value="enfermera2">Enfermera María</option>';
+                } else if (servicio === 'psicologia') {
+                    profesionalSelect.innerHTML += '<option value="psicologo1">Psicólogo Juan</option><option value="psicologo2">Psicóloga Laura</option>';
+                } else if (servicio === 'trabajo_social') {
+                    profesionalSelect.innerHTML += '<option value="ts1">Trabajador Social Pedro</option>';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

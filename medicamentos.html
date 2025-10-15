@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Medicamentos - Unidad de Salud Escolar</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">Unidad de Salud Escolar</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="enfermeria.html">Enfermería</a></li>
+                    <li class="nav-item"><a class="nav-link" href="psicologia.html">Psicología</a></li>
+                    <li class="nav-item"><a class="nav-link" href="trabajo_social.html">Trabajo Social</a></li>
+                    <li class="nav-item"><a class="nav-link" href="citas.html">Citas</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contacto.html">Contacto</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container my-5">
+        <div class="mb-3">
+            <a href="index.html" class="btn btn-secondary">Regresar al Inicio</a>
+        </div>
+        <h1 class="mb-4">Medicamentos Disponibles en Enfermería</h1>
+        <div class="mb-3">
+            <input type="text" class="form-control" id="buscar-medicamento" placeholder="Buscar medicamento..." />
+        </div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Uso</th>
+                    <th>Contraindicaciones</th>
+                    <th>Cantidad</th>
+                </tr>
+            </thead>
+            <tbody id="tabla-medicamentos">
+                <!-- Medicamentos se cargarán aquí -->
+            </tbody>
+        </table>
+
+        <h3 class="mt-5">Solicitar Medicamento</h3>
+        <form id="form-medicamento" class="mt-3">
+            <div class="mb-3">
+                <label for="nombreMedicamento" class="form-label">Nombre del Medicamento</label>
+                <input type="text" class="form-control" id="nombreMedicamento" name="nombreMedicamento" required />
+            </div>
+            <div class="mb-3">
+                <label for="cantidadMedicamento" class="form-label">Cantidad</label>
+                <input type="number" class="form-control" id="cantidadMedicamento" name="cantidadMedicamento" min="1" required />
+            </div>
+            <button type="submit" class="btn btn-primary">Solicitar Medicamento</button>
+        </form>
+        <div id="mensaje-medicamento" class="mt-3"></div>
+    </main>
+
+    <footer class="bg-light text-center py-4 mt-5">
+        <div class="container">
+            <p class="mb-0">&copy; 2025 Unidad de Salud Escolar. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/scripts.js"></script>
+    <script>
+        // Simulación de datos de medicamentos
+        const medicamentos = [
+            { nombre: 'Paracetamol', descripcion: 'Analgésico y antipirético', uso: 'Para reducir el dolor y la fiebre', contraindicaciones: 'ALÉRGICOS AL PARACETAMOL NO LO PUEDEN TOMAR', cantidad: 50 },
+            { nombre: 'Ibuprofeno', descripcion: 'Antiinflamatorio y analgésico', uso: 'Para reducir la inflamación, dolor y fiebre', contraindicaciones: 'ALÉRGICOS AL IBUPROFENO O ASPIRINA NO LO PUEDEN TOMAR', cantidad: 30 },
+            { nombre: 'Amoxicilina', descripcion: 'Antibiótico', uso: 'Para tratar infecciones bacterianas', contraindicaciones: 'ALÉRGICOS A LA PENICILINA NO LO PUEDEN TOMAR', cantidad: 20 },
+            { nombre: 'Aspirina', descripcion: 'Antiinflamatorio y anticoagulante', uso: 'Para reducir el dolor, fiebre e inflamación', contraindicaciones: 'ALÉRGICOS A LA ASPIRINA NO LO PUEDEN TOMAR', cantidad: 40 },
+            { nombre: 'Loratadina', descripcion: 'Antihistamínico', uso: 'Para aliviar síntomas de alergia', contraindicaciones: 'ALÉRGICOS A LA LORATADINA NO LO PUEDEN TOMAR', cantidad: 25 },
+            { nombre: 'Cetirizina', descripcion: 'Antihistamínico', uso: 'Para tratar alergias y urticaria', contraindicaciones: 'ALÉRGICOS A LA CETIRIZINA NO LO PUEDEN TOMAR', cantidad: 35 },
+            { nombre: 'Omeprazol', descripcion: 'Inhibidor de la bomba de protones', uso: 'Para reducir la producción de ácido en el estómago', contraindicaciones: 'ALÉRGICOS AL OMEPRAZOL NO LO PUEDEN TOMAR', cantidad: 15 },
+            { nombre: 'Ranitidina', descripcion: 'Antagonista H2', uso: 'Para reducir la acidez estomacal', contraindicaciones: 'ALÉRGICOS A LA RANITIDINA NO LO PUEDEN TOMAR', cantidad: 20 },
+            { nombre: 'Metformina', descripcion: 'Antidiabético', uso: 'Para controlar el azúcar en sangre en diabetes tipo 2', contraindicaciones: 'PACIENTES CON INSUFICIENCIA RENAL NO LO PUEDEN TOMAR', cantidad: 10 },
+            { nombre: 'Insulina', descripcion: 'Hormona antidiabética', uso: 'Para regular el azúcar en sangre en diabetes', contraindicaciones: 'ALÉRGICOS A LA INSULINA NO LO PUEDEN TOMAR', cantidad: 5 },
+            { nombre: 'Salbutamol', descripcion: 'Broncodilatador', uso: 'Para aliviar síntomas de asma', contraindicaciones: 'ALÉRGICOS AL SALBUTAMOL NO LO PUEDEN TOMAR', cantidad: 30 },
+            { nombre: 'Prednisona', descripcion: 'Corticosteroide', uso: 'Para reducir inflamación y suprimir el sistema inmune', contraindicaciones: 'PACIENTES CON INFECCIONES ACTIVAS NO LO PUEDEN TOMAR', cantidad: 12 },
+            { nombre: 'Diclofenaco', descripcion: 'Antiinflamatorio no esteroideo', uso: 'Para reducir dolor e inflamación', contraindicaciones: 'ALÉRGICOS AL DICLOFENACO NO LO PUEDEN TOMAR', cantidad: 25 },
+            { nombre: 'Clonazepam', descripcion: 'Benzodiazepina', uso: 'Para tratar convulsiones y ansiedad', contraindicaciones: 'PACIENTES CON GLAUCOMA NO LO PUEDEN TOMAR', cantidad: 8 },
+            { nombre: 'Sertralina', descripcion: 'Antidepresivo', uso: 'Para tratar depresión y trastornos de ansiedad', contraindicaciones: 'PACIENTES CON SÍNDROME SEROTONINÉRGICO NO LO PUEDEN TOMAR', cantidad: 10 },
+            { nombre: 'Atorvastatina', descripcion: 'Estatinas', uso: 'Para reducir el colesterol', contraindicaciones: 'PACIENTES CON ENFERMEDAD HEPÁTICA NO LO PUEDEN TOMAR', cantidad: 15 },
+            { nombre: 'Losartán', descripcion: 'Antagonista de receptores de angiotensina', uso: 'Para tratar hipertensión', contraindicaciones: 'EMBARAZADAS NO LO PUEDEN TOMAR', cantidad: 20 },
+            { nombre: 'Amlodipino', descripcion: 'Bloqueador de canales de calcio', uso: 'Para tratar hipertensión y angina', contraindicaciones: 'ALÉRGICOS AL AMLODIPINO NO LO PUEDEN TOMAR', cantidad: 18 },
+            { nombre: 'Furosemida', descripcion: 'Diurético', uso: 'Para reducir la retención de líquidos', contraindicaciones: 'PACIENTES CON INSUFICIENCIA RENAL NO LO PUEDEN TOMAR', cantidad: 15 },
+            { nombre: 'Warfarina', descripcion: 'Anticoagulante', uso: 'Para prevenir coágulos sanguíneos', contraindicaciones: 'PACIENTES CON HEMORRAGIAS ACTIVAS NO LO PUEDEN TOMAR', cantidad: 10 },
+            { nombre: 'Levotiroxina', descripcion: 'Hormona tiroidea', uso: 'Para tratar hipotiroidismo', contraindicaciones: 'PACIENTES CON HIPERTIROIDISMO NO LO PUEDEN TOMAR', cantidad: 12 },
+            { nombre: 'Metoprolol', descripcion: 'Betabloqueante', uso: 'Para tratar hipertensión y arritmias', contraindicaciones: 'PACIENTES CON BRADICARDIA NO LO PUEDEN TOMAR', cantidad: 20 },
+            { nombre: 'Ciprofloxacino', descripcion: 'Antibiótico fluoroquinolona', uso: 'Para tratar infecciones bacterianas', contraindicaciones: 'ALÉRGICOS A LAS FLUOROQUINOLONAS NO LO PUEDEN TOMAR', cantidad: 15 },
+            { nombre: 'Azitromicina', descripcion: 'Antibiótico macrólido', uso: 'Para tratar infecciones respiratorias', contraindicaciones: 'ALÉRGICOS A LOS MACRÓLIDOS NO LO PUEDEN TOMAR', cantidad: 18 },
+            { nombre: 'Dexametasona', descripcion: 'Corticosteroide', uso: 'Para reducir inflamación', contraindicaciones: 'PACIENTES CON INFECCIONES VIRALES NO LO PUEDEN TOMAR', cantidad: 10 },
+            { nombre: 'Tramadol', descripcion: 'Analgésico opioide', uso: 'Para aliviar dolor moderado a severo', contraindicaciones: 'PACIENTES CON DEPENDENCIA A OPIOIDES NO LO PUEDEN TOMAR', cantidad: 12 },
+            { nombre: 'Gabapentina', descripcion: 'Anticonvulsante', uso: 'Para tratar convulsiones y dolor neuropático', contraindicaciones: 'ALÉRGICOS A LA GABAPENTINA NO LO PUEDEN TOMAR', cantidad: 15 },
+            { nombre: 'Pantoprazol', descripcion: 'Inhibidor de la bomba de protones', uso: 'Para reducir acidez estomacal', contraindicaciones: 'ALÉRGICOS AL PANTOPRAZOL NO LO PUEDEN TOMAR', cantidad: 20 },
+            { nombre: 'Simvastatina', descripcion: 'Estatinas', uso: 'Para reducir colesterol', contraindicaciones: 'PACIENTES CON ENFERMEDAD HEPÁTICA NO LO PUEDEN TOMAR', cantidad: 18 },
+            { nombre: 'Enalapril', descripcion: 'Inhibidor de la ECA', uso: 'Para tratar hipertensión', contraindicaciones: 'EMBARAZADAS NO LO PUEDEN TOMAR', cantidad: 15 },
+            { nombre: 'Hidroclorotiazida', descripcion: 'Diurético tiazida', uso: 'Para reducir presión arterial', contraindicaciones: 'PACIENTES CON GOTA NO LO PUEDEN TOMAR', cantidad: 20 }
+        ];
+
+        function cargarMedicamentos(filtro = '') {
+            const tabla = document.getElementById('tabla-medicamentos');
+            tabla.innerHTML = '';
+            const filtrados = medicamentos.filter(med => med.nombre.toLowerCase().includes(filtro.toLowerCase()));
+            filtrados.forEach(med => {
+                const fila = document.createElement('tr');
+                fila.innerHTML = `
+                    <td>${med.nombre}</td>
+                    <td>${med.descripcion}</td>
+                    <td>${med.uso}</td>
+                    <td>${med.contraindicaciones}</td>
+                    <td>${med.cantidad}</td>
+                `;
+                tabla.appendChild(fila);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            cargarMedicamentos();
+
+            const buscarInput = document.getElementById('buscar-medicamento');
+            buscarInput.addEventListener('input', () => {
+                cargarMedicamentos(buscarInput.value);
+            });
+
+            const formMedicamento = document.getElementById('form-medicamento');
+            const mensajeDiv = document.getElementById('mensaje-medicamento');
+
+            formMedicamento.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const nombre = formMedicamento.nombreMedicamento.value.trim();
+                const cantidad = parseInt(formMedicamento.cantidadMedicamento.value);
+
+                if (!nombre || cantidad <= 0) {
+                    mensajeDiv.textContent = 'Por favor, ingrese un nombre válido y cantidad mayor a cero.';
+                    mensajeDiv.className = 'text-danger';
+                    return;
+                }
+
+                // Aquí se puede agregar la lógica para enviar la solicitud al backend
+                mensajeDiv.textContent = `Solicitud para ${cantidad} unidad(es) de ${nombre} enviada con éxito.`;
+                mensajeDiv.className = 'text-success';
+
+                formMedicamento.reset();
+            });
+        });
+    </script>
+</body>
+</html>
