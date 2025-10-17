@@ -21,6 +21,7 @@
                     <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
                     <li class="nav-item"><a class="nav-link" href="enfermeria.html">Enfermería</a></li>
                     <li class="nav-item"><a class="nav-link active" href="psicologia.html">Psicología</a></li>
+                    <li class="nav-item"><a class="nav-link" href="consejeria.html">Consejería</a></li>
                     <li class="nav-item"><a class="nav-link" href="trabajo_social.html">Trabajo Social</a></li>
                     <li class="nav-item"><a class="nav-link" href="citas.html">Citas</a></li>
                     <li class="nav-item"><a class="nav-link" href="contacto.html">Contacto</a></li>
@@ -31,7 +32,7 @@
 
     <main class="container my-5">
         <div class="mb-3">
-            <a href="index.html" class="btn btn-secondary">Regresar al Inicio</a>
+            <a href="index.html" class="btn btn-secondary">Regresar al inicio</a>
         </div>
         <h1 class="mb-4">Servicios de Psicología</h1>
         <p> 
@@ -49,20 +50,19 @@ y la expresión total de su potencial.</p>
         <div class="collapse" id="serviciosPsicologia">
             <div class="row g-4 mb-5">
                 <div class="col-lg-4 col-md-6">
-                    <div class="card h-100 shadow-sm text-center" style="transition: transform 0.3s; cursor: pointer; border-left: 5px solid #007bff;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                    <button class="card h-100 shadow-sm text-center" style="transition: transform 0.3s; cursor: pointer; border-left: 5px solid #007bff; border: none; background: none;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" onclick="toggleDescription(this)">
                         <div class="card-body">
                             <div class="icon mb-3">
                                 <i class="fas fa-lightbulb fa-3x text-primary"></i>
                             </div>
                             <h5 class="card-title fw-bold">Prevención primaria y secundaria</h5>
                             <p class="card-text">Proporcionar capacitaciones y campañas educativas dirigidas a los estudiantes, los padres, las madres o los encargados, el personal docente y no docente, así como a la
-comunidad escolar en general.
-</p>
+comunidad escolar en general.</p>
                         </div>
-                    </div>
+                    </button>
                 </div>
                 <div class="col-lg-4 col-md-6">
-                    <div class="card h-100 shadow-sm text-center" style="transition: transform 0.3s; cursor: pointer; border-left: 5px solid #28a745;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                    <button class="card h-100 shadow-sm text-center" style="transition: transform 0.3s; cursor: pointer; border-left: 5px solid #28a745; border: none; background: none;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" onclick="toggleDescription(this)">
                         <div class="card-body">
                             <div class="icon mb-3">
                                 <i class="fas fa-heart fa-3x text-success"></i>
@@ -70,22 +70,21 @@ comunidad escolar en general.
                             <h5 class="card-title fw-bold">Consejería psicológica / terapia psicológia</h5>
                             <p class="card-text">Ofrecer una variedad de técnicas terapéuticas en modalidad de terapia individual y grupal.</p>
                         </div>
-                    </div>
+                    </button>
                 </div>
                 <div class="col-lg-4 col-md-6">
-                    <div class="card h-100 shadow-sm text-center" style="transition: transform 0.3s; cursor: pointer; border-left: 5px solid #17a2b8;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                    <button class="card h-100 shadow-sm text-center" style="transition: transform 0.3s; cursor: pointer; border-left: 5px solid #17a2b8; border: none; background: none;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" onclick="toggleDescription(this)">
                         <div class="card-body">
                             <div class="icon mb-3">
                                 <i class="fas fa-chart-line fa-3x text-info"></i>
                             </div>
                             <h5 class="card-title fw-bold">Evaluación psicológica</h5>
-                            <p class="card-text">Realizar evaluaciones psicométricas, psicológicas y psicoeducativas con el fin de identificar las necesidades de los estudiantes y proporcionar recomendaciones adecuadas.
-</p>
+                            <p class="card-text">Realizar evaluaciones psicométricas, psicológicas y psicoeducativas con el fin de identificar las necesidades de los estudiantes y proporcionar recomendaciones adecuadas.</p>
                         </div>
-                    </div>
+                    </button>
                 </div>
                 <div class="col-lg-4 col-md-6">
-                    <div class="card h-100 shadow-sm text-center" style="transition: transform 0.3s; cursor: pointer; border-left: 5px solid #6f42c1;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                    <button class="card h-100 shadow-sm text-center" style="transition: transform 0.3s; cursor: pointer; border-left: 5px solid #6f42c1; border: none; background: none;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" onclick="toggleDescription(this)">
                         <div class="card-body">
                             <div class="icon mb-3">
                                 <i class="fas fa-handshake fa-3x text-primary"></i>
@@ -94,24 +93,20 @@ comunidad escolar en general.
                             <p class="card-text">Referir según las necesidades identificadas
 de los estudiantes, el personal docente y
 no docente, los padres, las madres o los
-encargados, entre otros.
+encargados, entre otros.</p>
                         </div>
-                    </div>
+                    </button>
                 </div>
                 <div class="col-lg-4 col-md-6">
-                    <div class="card h-100 shadow-sm text-center" style="transition: transform 0.3s; cursor: pointer; border-left: 5px solid #fd7e14;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                    <button class="card h-100 shadow-sm text-center" style="transition: transform 0.3s; cursor: pointer; border-left: 5px solid #fd7e14; border: none; background: none;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" onclick="toggleDescription(this)">
                         <div class="card-body">
                             <div class="icon mb-3">
                                 <i class="fas fa-graduation-cap fa-3x text-warning"></i>
                             </div>
                             <h5 class="card-title fw-bold">Criterios de selección para estudiantes de Educación Especial</h5>
-                            <p class="card-text">Seleccionar según los procesos
-establecidos en el Manual de
-Procedimientos de Educación Especial
-(2020) y la Guía para la Provisión de
-Servicios Relacionados (2020).</p>
+                            <p class="card-text">Selección del proceso de aprendizaje y reconocimiento de servicios. Apoyamos en la identificación y acceso a recursos educativos especializados para estudiantes con necesidades específicas.</p>
                         </div>
-                    </div>
+                    </button>
                 </div>
             </div>
         </div>
@@ -148,10 +143,49 @@ Servicios Relacionados (2020).</p>
                 <label for="tipoConsultaPsico" class="form-label">Tipo de consulta</label>
                 <select class="form-select" id="tipoConsultaPsico" name="tipoConsultaPsico" required>
                     <option value="" disabled selected>Seleccione una opción</option>
-                    <option value="emocion">Emoción</option>
-                    <option value="estres">Estrés</option>
-                    <option value="ansiedad">Ansiedad</option>
-                    <option value="otro">Otro</option>
+                    <optgroup label="Situación Emocional / Conductual"></optgroup>
+                        <option value="ansiedad">Ansiedad</option>
+                        <option value="Apatico / retrirado / aislamiento">Apático / retrirado / aislamiento</option>
+                        <option value="Autoconocimiento / Automanejo">Autoconocimiento / Automanejo</option>
+                        <option value="Baja motivacion emocional">Baja motivacion emocional</option>
+                        <option value="Atencion / concentracion">Atención / concentración</option>
+                        <option value="Concentracion">Concentración</option>
+                        <option value="Cambios en el estado de animo">Cambios en el estado de ánimo</option>
+                        <option value="Control de impulsos">Control de impulsos</option>
+                        <option value="Depresión">Depresión</option>
+                        <option value="Falta o exceso de apetito">Falta o exceso de apetito</option>
+                        <option value="Indicadores de trauma">Indicadores de trauma</option>
+                        <option value="Irritabilidad / Coraje frecuente">Irritabilidad / Coraje frecuente</option>
+                        <option value="Llanto frecuente">Llanto frecuente</option>
+                        <option value="Interpretacion de escala de evaluacion de la conducta">Interpretación de escala de evaluación de la conducta</option>
+                        <option value="Manejo de conflicto">Manejo de conflicto</option>
+                        <option value="Manejo de emociones">Manejo de emociones</option>
+                        <option value="estres">Manejo de estrés</option>
+                        <option value="Miedo a lugares, personas o cosas">Miedo a lugares, personas o cosas</option>
+                        <option value="Plan de tratamiento">Plan de tratamiento</option>
+                        <option value="Refuerzo positivo y motivacional">Refuerzo positivo y motivacional</option>
+                        <option value="Redaccion de recomendaciones sobre escala de la conducta">Redacción de recomendaciones sobre escala de la conducta</option>
+                        <option value="Seguimiento a expectativas de conducta">Seguimiento a expectativas de conducta</option>
+                        <option value="Situaciones asociadas a la personalidad">Situaciones asociadas a la personalidad</option>
+                        <option value="Tristeza / frustracion">Tristeza / frustración</option>
+                        <option value="Tratamiento por diagnostico previo">Tratamiento por diagnóstico previo</option>
+                    </optgroup>
+                    <optgroup label="Situaciones Interpersonales">
+                        <option value="Autoestima">Autoestima</option>
+                        <option value="Companeros o pares">Compañeros o pares</option>
+                        <option value="Convivencia en pareja">Convivencia en pareja</option>
+                        <option value="Custodia">Custodia</option>
+                        <option value="Familia (hermanos, abuelos, tios, etc.)">Familia (hermanos, abuelos, tíos, etc.)</option>
+                        <option value="Habilidades sociales">Habilidades sociales</option>
+                        <option value="Autoestima">Maestros / Personal escolar</option>
+                        <option value="Matrimonio / Divorcio">Matrimonio / Divorcio</option>
+                        <option value="Padre, madre o encargado">Padre, madre o encargado</option>
+                        <option value="Planes medicos">Planes médicos</option>
+                        <option value="Rechazo social">Rechazo social</option>
+                        <option value="Situacion de custodia, patria potestad">Situacion de custodia, patria potestad</option>
+                        <option value="Situaciones economicas">Situaciones económicas</option>
+                    </optgroup>
+                    <option value="Transportacion">Transportación</option>
                 </select>
             </div>
             <div class="mb-3" id="otroTipoDiv" style="display: none;">
