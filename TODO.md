@@ -1,0 +1,2 @@
+- [x] Agregar validación en el formulario de psicología para impedir citas los martes, miércoles y jueves de 8 am a 11 am.
+- [x] Cambiar el input datetime-local por un input date, y validar que no permita seleccionar martes, miércoles o jueves, mostrando mensaje "Su cita no pudo ser asignada, ya que el psicologo esta en reunion".
