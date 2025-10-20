@@ -49,6 +49,7 @@
                         <option value="" disabled selected>Seleccione un servicio</option>
                         <option value="enfermeria">Enfermería</option>
                         <option value="psicologia">Psicología</option>
+                        <option value="consejeria">Consejería</option>
                         <option value="trabajo_social">Trabajo Social</option>
                     </select>
                 </div>
@@ -106,6 +107,17 @@
                     return;
                 }
 
+                // Validación para psicología: no permitir citas los martes, miércoles, jueves
+                if (tipoServicio === 'psicologia') {
+                    const selectedDateTime = new Date(fechaHora);
+                    const dayOfWeek = selectedDateTime.getDay(); // 0=Dom, 1=Lun, 2=Mar, 3=Mie, 4=Jue, 5=Vie, 6=Sab
+                    if (dayOfWeek === 2 || dayOfWeek === 3 || dayOfWeek === 4) {
+                        mensajeDiv.textContent = 'Su cita no pudo ser asignada, ya que el psicólogo está en reunión.';
+                        mensajeDiv.className = 'text-danger';
+                        return;
+                    }
+                }
+
                 // Aquí se puede agregar la lógica para enviar la cita al backend
                 mensajeDiv.textContent = 'Cita reservada con éxito. Recibirá un correo de confirmación.';
                 mensajeDiv.className = 'text-success';
@@ -128,11 +140,13 @@
                 const servicio = tipoServicioSelect.value;
                 profesionalSelect.innerHTML = '<option value="" disabled selected>Seleccione un profesional</option>';
                 if (servicio === 'enfermeria') {
-                    profesionalSelect.innerHTML += '<option value="enfermera1">Enfermera Ana</option><option value="enfermera2">Enfermera María</option>';
+                    profesionalSelect.innerHTML += '<option value="enfermera1">Enfermera Celia</option>';
                 } else if (servicio === 'psicologia') {
-                    profesionalSelect.innerHTML += '<option value="psicologo1">Psicólogo Juan</option><option value="psicologo2">Psicóloga Laura</option>';
+                    profesionalSelect.innerHTML += '<option value="psicologo3">Psicólogo Jesús Berrios Ortiz</option>';
+                } else if (servicio === 'consejeria') {
+                    profesionalSelect.innerHTML += '<option value="consejera1">Consejera Maricarmen García Rivera</option><option value="consejera2">Consejera Sonia I. Cruz Maldonado</option>';
                 } else if (servicio === 'trabajo_social') {
-                    profesionalSelect.innerHTML += '<option value="ts1">Trabajador Social Pedro</option>';
+                    profesionalSelect.innerHTML += '<option value="ts1">Trabajadora Social Karem Rivera Moreno</option><option value="trabajadora social2">Trabajadora Social Janelys Berríos</option>';
                 }
             });
         });
