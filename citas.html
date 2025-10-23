@@ -55,12 +55,9 @@
                 </div>
                 <div class="col-md-4">
                     <label for="profesional" class="form-label">Profesional</label>
-                    <div class="d-flex gap-2">
-                        <select class="form-select" id="profesional" name="profesional" required>
-                            <option value="" disabled selected>Seleccione un profesional</option>
-                        </select>
-                        <button type="button" class="btn btn-info" id="infoBtn" disabled>ℹ️ Info</button>
-                    </div>
+                    <select class="form-select" id="profesional" name="profesional" required>
+                        <option value="" disabled selected>Seleccione un profesional</option>
+                    </select>
                 </div>
                 <div class="col-md-4">
                     <label for="fechaHora" class="form-label">Fecha y Hora</label>
@@ -110,6 +107,17 @@
                     return;
                 }
 
+                // Validación para psicología: no permitir citas los martes, miércoles, jueves
+                if (tipoServicio === 'psicologia') {
+                    const selectedDateTime = new Date(fechaHora);
+                    const dayOfWeek = selectedDateTime.getDay(); // 0=Dom, 1=Lun, 2=Mar, 3=Mie, 4=Jue, 5=Vie, 6=Sab
+                    if (dayOfWeek === 2 || dayOfWeek === 3 || dayOfWeek === 4) {
+                        mensajeDiv.textContent = 'Su cita no pudo ser asignada, ya que el psicólogo está en reunión.';
+                        mensajeDiv.className = 'text-danger';
+                        return;
+                    }
+                }
+
                 // Aquí se puede agregar la lógica para enviar la cita al backend
                 mensajeDiv.textContent = 'Cita reservada con éxito. Recibirá un correo de confirmación.';
                 mensajeDiv.className = 'text-success';
@@ -124,76 +132,21 @@
                 formCita.reset();
             });
 
-            // Información de profesionales
-            const profesionalesInfo = {
-                'enfermera1': {
-                    nombre: 'Enfermera Celia',
-                    telefono: '(809) 123-4567',
-                    extension: '101',
-                    email: 'celia.enfermera@escuela.edu',
-                    especialidad: 'Enfermería General'
-                },
-                'psicologo3': {
-                    nombre: 'Psicólogo Jesús Berrios Ortiz',
-                    telefono: '(809) 234-5678',
-                    extension: '201',
-                    email: 'jesus.berrios@escuela.edu',
-                    especialidad: 'Psicología Clínica'
-                },
-                'consejera1': {
-                    nombre: 'Consejera Maricarmen García Rivera',
-                    telefono: '(809) 345-6789',
-                    extension: '301',
-                    email: 'maricarmen.garcia@escuela.edu',
-                    especialidad: 'Consejería Educativa'
-                },
-                'consejera2': {
-                    nombre: 'Consejera Sonia I. Cruz Maldonado',
-                    telefono: '(809) 456-7890',
-                    extension: '302',
-                    email: 'sonia.cruz@escuela.edu',
-                    especialidad: 'Consejería Vocacional'
-                },
-                'ts1': {
-                    nombre: 'Trabajadora Social Karem Rivera Moreno',
-                    telefono: '(809) 567-8901',
-                    extension: '401',
-                    email: 'karem.rivera@escuela.edu',
-                    especialidad: 'Trabajo Social'
-                }
-            };
-
             // Actualizar profesionales basado en servicio seleccionado
             const tipoServicioSelect = document.getElementById('tipoServicio');
             const profesionalSelect = document.getElementById('profesional');
-            const infoBtn = document.getElementById('infoBtn');
 
             tipoServicioSelect.addEventListener('change', () => {
                 const servicio = tipoServicioSelect.value;
                 profesionalSelect.innerHTML = '<option value="" disabled selected>Seleccione un profesional</option>';
                 if (servicio === 'enfermeria') {
-                    profesionalSelect.innerHTML += '<option value="enfermera1">Enfermera Celia</option>';
+                    profesionalSelect.innerHTML += '<option value="enfermera1">Enfermera Celida Colón Aponte</option>';
                 } else if (servicio === 'psicologia') {
                     profesionalSelect.innerHTML += '<option value="psicologo3">Psicólogo Jesús Berrios Ortiz</option>';
                 } else if (servicio === 'consejeria') {
                     profesionalSelect.innerHTML += '<option value="consejera1">Consejera Maricarmen García Rivera</option><option value="consejera2">Consejera Sonia I. Cruz Maldonado</option>';
                 } else if (servicio === 'trabajo_social') {
-                    profesionalSelect.innerHTML += '<option value="ts1">Trabajadora Social Karem Rivera Moreno</option>';
-                }
-            });
-
-            // Habilitar/deshabilitar botón de información
-            profesionalSelect.addEventListener('change', () => {
-                const selectedValue = profesionalSelect.value;
-                infoBtn.disabled = !selectedValue;
-            });
-
-            // Mostrar información del profesional
-            infoBtn.addEventListener('click', () => {
-                const selectedValue = profesionalSelect.value;
-                if (selectedValue && profesionalesInfo[selectedValue]) {
-                    const info = profesionalesInfo[selectedValue];
-                    alert(`Información del Profesional:\n\nNombre: ${info.nombre}\nTeléfono: ${info.telefono}\nExtensión: ${info.extension}\nEmail: ${info.email}\nEspecialidad: ${info.especialidad}`);
+                    profesionalSelect.innerHTML += '<option value="ts1">Trabajadora Social Karem Rivera Moreno</option><option value="trabajadora social2">Trabajadora Social Janelys Berríos</option>';
                 }
             });
         });
