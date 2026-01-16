@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Trabajo Social - Unidad de Salud Escolar</title>
+    <title>Trabajo Social - Unidad de Apoyo Socioemocional</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="css/styles.css" />
@@ -11,7 +11,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
         <div class="container">
-            <a class="navbar-brand" href="index.html">Unidad de Salud Escolar</a>
+            <a class="navbar-brand" href="index.html">Unidad de Apoyo Socioemocional</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -108,10 +108,7 @@ mediante el análisis crítico de las situaciones en el diario vivir. </p>
                     <input type="tel" class="form-control" id="telefonoAlternoTS" name="telefonoAlternoTS" />
                 </div>
             </div>
-            <div class="mb-3">
-                <label for="direccionTS" class="form-label">Dirección</label>
-                <input type="text" class="form-control" id="direccionTS" name="direccionTS" required />
-            </div>
+             
             <h3>Detalles de la consulta</h3>
             <div class="mb-3">
                 <label for="motivoConsulta" class="form-label">Motivo de la consulta</label>
@@ -131,6 +128,31 @@ mediante el análisis crítico de las situaciones en el diario vivir. </p>
                     <option value="Educación Especial">Educación Especial</option>
                 </select>
             </div>
+            <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="profesionalConse" class="form-label">Categorice la gravedad del asunto</label>
+                <select class="form-select" id="profesionalConse" name="profesionalConse" required>
+                    <option value="" disabled selected>Seleccione una opción</option>
+                    <option value="Crítico: Requiere atención inmediata. Puede causar daños graves o pérdidas.">Crítico: Requiere atención inmediata. </option>
+                    <option value="Urgente Necesita resolverse lo antes posible. Alta prioridad.">Urgente: Necesita resolverse lo antes posible. </option>
+                    <option value="Grave: Importante, pero no requiere acción inmediata.">Grave: Importante, pero no requiere atención inmediata.</option>
+                    <option value="Moderado: Tiene impacto, pero puede esperar un poco."> Moderado: Tiene impacto, pero puede esperar un poco.</option>
+                    <option value="Leve: Bajo impacto. No requiere atención inmediata.">Leve: No requiere atención inmediata.</option>
+                    <option value="Informativo: Solo para conocimiento. No requiere acción.">Informativo: Solo para conocimiento.</option>
+                </select>
+            </div>
+        </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="profesionalConse" class="form-label">Seleccione el profesional con quien desea agendar su cita.</label>
+                    <select class="form-select" id="profesionalConse" name="profesionalConse" required>
+                        <option value="" disabled selected>Seleccione una opción</option>
+                        <option value="Consejera Maricarmen García Rivera">Janelys M. Berrios Zayas</option>
+                        <option value="Consejera Sonia I. Cruz Maldonado">Kárem Rivera Moreno</option>
+                    </select>
+                </div>
+            </div>
+                         
             <div class="mb-3">
                 <label for="horaConsultaTS" class="form-label">Hora de la cita</label>
                 <input type="datetime-local" class="form-control" id="horaConsultaTS" name="horaConsultaTS" required />

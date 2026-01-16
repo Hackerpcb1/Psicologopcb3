@@ -11,7 +11,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
         <div class="container">
-            <a class="navbar-brand" href="index.html">Unidad de Salud Escolar</a>
+            <a class="navbar-brand" href="index.html">Unidad de Apoyo Socioemocional</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -123,8 +123,7 @@ encargados, entre otros.</p>
                         <p class="card-text">Especialista en Psicología Clínica</p>
                         <div class="contact-info mt-3">
                             <p class="mb-1"><i class="fas fa-phone me-2"></i>Teléfono: (787) 240-4737</p>
-                            <p class="mb-1"><i class="fas fa-phone-office me-2"></i>Extensión: 201</p>
-                            <p class="mb-0"><i class="fas fa-envelope me-2"></i>DE161266@miescuela.pr</p>
+                            <p class="mb-0"><i class="fas fa-envelope me-2"></i>de161266@miescuela.pr</p>
                         </div>
                     </div>
                 </div>
@@ -159,13 +158,10 @@ encargados, entre otros.</p>
                     <input type="tel" class="form-control" id="telefonoAlternoPsico" name="telefonoAlternoPsico" />
                 </div>
             </div>
-            <div class="mb-3">
-                <label for="direccionPsico" class="form-label">Dirección</label>
-                <input type="text" class="form-control" id="direccionPsico" name="direccionPsico" required />
-            </div>
+
             <h3>Detalles de la consulta</h3>
             <div class="mb-3">
-                <label for="tipoConsultaPsico" class="form-label">Tipo de consulta</label>
+                <label for="tipoConsultaPsico" class="form-label">Motivo de la consulta</label>
                 <select class="form-select" id="tipoConsultaPsico" name="tipoConsultaPsico" required>
                     <option value="" disabled selected>Seleccione una opción</option>
                     <optgroup label="Situación Emocional / Conductual"></optgroup>
@@ -213,6 +209,20 @@ encargados, entre otros.</p>
                     </optgroup>
                 </select>
             </div>
+            <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="profesionalConse" class="form-label">Categorice la gravedad del asunto</label>
+                <select class="form-select" id="profesionalConse" name="profesionalConse" required>
+                    <option value="" disabled selected>Seleccione una opción</option>
+                    <option value="Crítico: Requiere atención inmediata. Puede causar daños graves o pérdidas.">Crítico: Requiere atención inmediata. </option>
+                    <option value="Urgente Necesita resolverse lo antes posible. Alta prioridad.">Urgente: Necesita resolverse lo antes posible. </option>
+                    <option value="Grave: Importante, pero no requiere acción inmediata.">Grave: Importante, pero no requiere atención inmediata.</option>
+                    <option value="Moderado: Tiene impacto, pero puede esperar un poco.">Moderado: Tiene impacto, pero puede esperar un poco.</option>
+                    <option value="Leve: Bajo impacto. No requiere atención inmediata.">Leve: No requiere atención inmediata.</option>
+                    <option value="Informativo: Solo para conocimiento. No requiere acción.">Informativo: Solo para conocimiento.</option>
+                </select>
+            </div>
+        </div>
             <div class="mb-3" id="otroTipoDiv" style="display: none;">
                 <label for="otroTipo" class="form-label">Especifique el tipo de consulta</label>
                 <input type="text" class="form-control" id="otroTipo" name="otroTipo" placeholder="Describa el tipo de consulta" />
