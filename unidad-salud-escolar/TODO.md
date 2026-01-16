@@ -1,2 +1,5 @@
-- [x] Agregar validación en el formulario de psicología para impedir citas los martes, miércoles y jueves de 8 am a 11 am.
-- [x] Cambiar el input datetime-local por un input date, y validar que no permita seleccionar martes, miércoles o jueves, mostrando mensaje "Su cita no pudo ser asignada, ya que el psicologo esta en reunion".
+# TODO: Añadir Taller de Seguridad Pública
+
+- [x] Actualizar public/index.html: Añadir enlace "Talleres" en la barra de navegación
+- [x] Actualizar public/index.html: Añadir tarjeta de servicio para "Talleres" en la sección de servicios
+- [x] Crear public/talleres.html: Nueva página con información sobre talleres, incluyendo el taller de seguridad pública

@@ -27,14 +27,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const mensajeDiv = document.getElementById('mensaje-enfermeria');
 
             // Validación básica
-            if (!data.nombre || !data.edad || !data.estatura || !data.peso || !data.email || !data.telefono || !data.direccion || !data.tipoConsulta || !data.sintomas || !data.horaConsulta) {
+            if (!data.nombre || !data.edad || !data.estatura || !data.peso || !data.email || !data.telefono || !data.motivoConsulta || !data.gravedad || !data.horaConsulta) {
                 mensajeDiv.textContent = 'Por favor, complete todos los campos.';
                 mensajeDiv.className = 'text-danger';
                 return;
             }
 
-            if (data.tipoConsulta === 'otro' && !data.otroTipoEnfermeria) {
-                mensajeDiv.textContent = 'Por favor, especifique el tipo de consulta.';
+            if (data.motivoConsulta === 'otro' && !data.otroTipoEnfermeria) {
+                mensajeDiv.textContent = 'Por favor, especifique el motivo de la consulta.';
                 mensajeDiv.className = 'text-danger';
                 return;
             }
@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const mensajeDiv = document.getElementById('mensaje-psicologia');
 
             // Validación básica
-            if (!data.nombrePsico || !data.edadPsico || !data.emailPsico || !data.telefonoPsico || !data.direccionPsico || !data.tipoConsultaPsico || !data.horaConsultaPsico) {
+            if (!data.nombrePsico || !data.edadPsico || !data.emailPsico || !data.telefonoPsico || !data.tipoConsultaPsico || !data.profesionalConse || !data.horaConsultaPsico) {
                 mensajeDiv.textContent = 'Por favor, complete todos los campos.';
                 mensajeDiv.className = 'text-danger';
                 return;
@@ -102,6 +102,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
             formPsicologia.reset();
             otroTipoDiv.style.display = 'none';
+        });
+    }
+
+    // Formulario Consejería
+    const formConsejeria = document.getElementById('form-consejeria');
+    if (formConsejeria) {
+        formConsejeria.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(formConsejeria);
+            const data = Object.fromEntries(formData);
+            const mensajeDiv = document.getElementById('mensaje-consejeria');
+
+            // Validación básica
+            if (!data.nombreConse || !data.edadConse || !data.emailConse || !data.telefonoConse || !data.motivoConsultaConse || !data.gravedadConse || !data.profesionalConse || !data.horaConsultaConse) {
+                mensajeDiv.textContent = 'Por favor, complete todos los campos.';
+                mensajeDiv.className = 'text-danger';
+                return;
+            }
+
+            // Simulación de éxito
+            mensajeDiv.textContent = 'Cita solicitada con éxito. Recibirá un correo de confirmación.';
+            mensajeDiv.className = 'text-success';
+
+            formConsejeria.reset();
         });
     }
 
