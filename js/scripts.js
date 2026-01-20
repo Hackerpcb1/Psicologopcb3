@@ -96,12 +96,137 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // Simulación de éxito
-            mensajeDiv.textContent = 'Cita solicitada con éxito. Recibirá un correo de confirmación.';
-            mensajeDiv.className = 'text-success';
+            try {
+                // Enviar email usando EmailJS
+              const templateParams = {
+    to_email: toEmail,
+    from_name: data.nombreConse,
+    from_email: data.emailConse,
 
-            formPsicologia.reset();
-            otroTipoDiv.style.display = 'none';
+    nombre_completo: data.nombreConse,
+    edad: data.edadConse,
+    correo: data.emailConse, // ✅ ESTE FALTABA
+    telefono: data.telefonoConse,
+    direccion: data.direccionConse,
+
+    tipo_consulta: data.tipoConsultaConse,
+
+    especificar_consulta: data.tipoConsultaConse === 'otro'
+        ? data.otroTipoConse
+        : 'No aplica', // ✅ ESTE FALTABA
+
+    consejero: data.consejeroConse,
+    hora_cita: data.horaConsultaConse
+};
+
+
+                await emailjs.send('service_psicologia', 'template_psicologia', templateParams);
+
+                mensajeDiv.textContent = 'Cita solicitada con éxito. Recibirá un correo de confirmación.';
+                mensajeDiv.className = 'text-success';
+
+                formPsicologia.reset();
+                otroTipoDiv.style.display = 'none';
+            } catch (error) {
+                console.error('Error al enviar el email:', error);
+                mensajeDiv.textContent = 'Error al enviar la solicitud. Por favor, inténtelo nuevamente.';
+                mensajeDiv.className = 'text-danger';
+            }
+        });
+    }
+
+    // Formulario Consejería
+    const formConsejeria = document.getElementById('form-consejeria');
+    if (formConsejeria) {
+        // Mostrar/ocultar campo "otro" cuando se selecciona "Otro"
+        const tipoConsultaSelect = formConsejeria.tipoConsultaConse;
+        const otroTipoDiv = document.getElementById('otroTipoConseDiv');
+        const otroTipoInput = document.getElementById('otroTipoConse');
+
+        tipoConsultaSelect.addEventListener('change', () => {
+            if (tipoConsultaSelect.value === 'otro') {
+                otroTipoDiv.style.display = 'block';
+                otroTipoInput.required = true;
+            } else {
+                otroTipoDiv.style.display = 'none';
+                otroTipoInput.required = false;
+                otroTipoInput.value = '';
+            }
+        });
+
+        formConsejeria.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(formConsejeria);
+            const data = Object.fromEntries(formData);
+            const mensajeDiv = document.getElementById('mensaje-consejeria');
+
+            // Validación básica
+            if (!data.nombreConse || !data.edadConse || !data.emailConse || !data.telefonoConse || !data.direccionConse || !data.tipoConsultaConse || !data.consejeroConse || !data.horaConsultaConse) {
+                mensajeDiv.textContent = 'Por favor, complete todos los campos.';
+                mensajeDiv.className = 'text-danger';
+                return;
+            }
+
+            if (data.tipoConsultaConse === 'otro' && !data.otroTipoConse) {
+                mensajeDiv.textContent = 'Por favor, especifique el tipo de consulta.';
+                mensajeDiv.className = 'text-danger';
+                return;
+            }
+
+            try {
+                let service, template, publicKey, toEmail;
+
+                if (data.consejeroConse === 'Maricarmen García Rivera') {
+                    service = 'service_tl36rip';
+                    template = 'template_pck97ew';
+                    publicKey = 'SCqXLNS1v8MCpsAit';
+                    toEmail = 'maricarmenpcb@gmail.com';
+                } else if (data.consejeroConse === 'Sonia I. Cruz Maldonado') {
+                    service = 'service_consejeria';
+                    template = 'template_consejeria';
+                    publicKey = 'YOUR_PUBLIC_KEY'; // Replace with actual public key for Sonia
+                    toEmail = 'DE58390@miescuela.pr';
+                }
+
+                // Initialize EmailJS with the appropriate public key
+                emailjs.init(publicKey);
+
+                // Enviar email usando EmailJS
+              const templateParams = {
+    to_email: toEmail,
+    from_name: data.nombreConse,
+    from_email: data.emailConse,
+
+    nombre_completo: data.nombreConse,
+    edad: data.edadConse,
+    correo: data.emailConse,
+    telefono: data.telefonoConse,
+    direccion: data.direccionConse,
+
+    tipo_consulta: data.tipoConsultaConse === 'otro'
+        ? data.otroTipoConse
+        : data.tipoConsultaConse,
+
+    consejero: data.consejeroConse,
+    hora_cita: data.horaConsultaConse
+};
+
+
+
+                await emailjs.send(service, template, templateParams);
+
+
+
+                mensajeDiv.textContent = 'Cita solicitada con éxito. Recibirá un correo de confirmación.';
+                mensajeDiv.className = 'text-success';
+
+                formConsejeria.reset();
+                otroTipoDiv.style.display = 'none';
+            } catch (error) {
+                console.error('Error al enviar el email:', error);
+                mensajeDiv.textContent = 'Error al enviar la solicitud. Por favor, inténtelo nuevamente.';
+                mensajeDiv.className = 'text-danger';
+            }
         });
     }
 
@@ -130,7 +255,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = Object.fromEntries(formData);
             const mensajeDiv = document.getElementById('mensaje-trabajo-social');
 
-            if (!data.motivoConsulta || !data.horaConsultaTS) {
+            if (!data.nombreTS || !data.edadTS || !data.emailTS || !data.telefonoTS || !data.direccionTS || !data.motivoConsulta || !data.trabajadoraSocialTS || !data.horaConsultaTS) {
                 mensajeDiv.textContent = 'Por favor, complete todos los campos.';
                 mensajeDiv.className = 'text-danger';
                 return;
@@ -142,12 +267,35 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // Simulación de éxito
-            mensajeDiv.textContent = 'Cita solicitada con éxito. Recibirá un correo de confirmación.';
-            mensajeDiv.className = 'text-success';
+            try {
+                // Enviar email usando EmailJS
+                const templateParams = {
+                    to_email: 'hackerpcb4@gmail.com',
+                    from_name: data.nombreTS,
+                    from_email: data.emailTS,
+                    service: 'Trabajo Social',
+                    nombre: data.nombreTS,
+                    edad: data.edadTS,
+                    telefono: data.telefonoTS,
+                    telefono_alterno: data.telefonoAlternoTS || 'No especificado',
+                    direccion: data.direccionTS,
+                    motivo_consulta: data.motivoConsulta === 'otro' ? data.otroMotivoTS : data.motivoConsulta,
+                    trabajadora_social: data.trabajadoraSocialTS,
+                    hora_consulta: data.horaConsultaTS
+                };
 
-            formTrabajoSocial.reset();
-            otroMotivoDiv.style.display = 'none';
+                await emailjs.send('service_trabajo_social', 'template_trabajo_social', templateParams);
+
+                mensajeDiv.textContent = 'Cita solicitada con éxito. Recibirá un correo de confirmación.';
+                mensajeDiv.className = 'text-success';
+
+                formTrabajoSocial.reset();
+                otroMotivoDiv.style.display = 'none';
+            } catch (error) {
+                console.error('Error al enviar el email:', error);
+                mensajeDiv.textContent = 'Error al enviar la solicitud. Por favor, inténtelo nuevamente.';
+                mensajeDiv.className = 'text-danger';
+            }
         });
     }
 
@@ -258,4 +406,25 @@ document.addEventListener('DOMContentLoaded', () => {
     window.toggleDescription = function(card) {
         card.classList.toggle('expanded');
     };
+
+    // Slideshow functionality
+    const slides = document.querySelectorAll('.slide');
+    let currentSlide = 0;
+
+    function showSlide(index) {
+        slides.forEach((slide, i) => {
+            slide.classList.toggle('active', i === index);
+        });
+    }
+
+    function nextSlide() {
+        currentSlide = (currentSlide + 1) % slides.length;
+        showSlide(currentSlide);
+    }
+
+    // Initialize slideshow
+    if (slides.length > 0) {
+        showSlide(currentSlide);
+        setInterval(nextSlide, 5000); // Change slide every 5 seconds
+    }
 });

@@ -11,7 +11,10 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
         <div class="container">
-            <a class="navbar-brand" href="index.html">Unidad de Salud Escolar</a>
+            <a class="navbar-brand d-flex align-items-center" href="index.html">
+                <img src="galeria/Logo_PCB.png" alt="galeria/Logo_PCB.png" class="me-2" style="height: 40px;">
+                Unidad de Apoyo Socioemocional
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -132,6 +135,14 @@ mediante el análisis crítico de las situaciones en el diario vivir. </p>
                 </select>
             </div>
             <div class="mb-3">
+                <label for="trabajadoraSocialTS" class="form-label">Seleccione la trabajadora social</label>
+                <select class="form-select" id="trabajadoraSocialTS" name="trabajadoraSocialTS" required>
+                    <option value="" disabled selected>Seleccione una opción</option>
+                    <option value="Kárem Rivera Moreno">Kárem Rivera Moreno</option>
+                    <option value="Janelys M. Berrios Zayas">Janelys M. Berrios Zayas</option>
+                </select>
+            </div>
+            <div class="mb-3">
                 <label for="horaConsultaTS" class="form-label">Hora de la cita</label>
                 <input type="datetime-local" class="form-control" id="horaConsultaTS" name="horaConsultaTS" required />
             </div>
@@ -142,7 +153,7 @@ mediante el análisis crítico de las situaciones en el diario vivir. </p>
 
     <footer class="bg-light text-center py-4 mt-5">
         <div class="container">
-            <p class="mb-0">&copy; 2025 Unidad de Salud Escolar. Todos los derechos reservados.</p>
+            <p class="mb-0">&copy; 2026 Unidad de Apoyo Socioemocional. Todos los derechos reservados.</p>
         </div>
     </footer>
 
