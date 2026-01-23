@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Consejería - Unidad de Salud Escolar</title>
+    <title>Consejería - Unidad de Apoyo Socioemocional</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="css/styles.css" />
@@ -11,7 +11,10 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
         <div class="container">
-            <a class="navbar-brand" href="index.html">Unidad de Apoyo Socioemocional</a>
+            <a class="navbar-brand d-flex align-items-center" href="index.html">
+                <img src="galeria/logopcb.png" alt="Logo Escuela" class="logo-navbar me-3">
+                <span>Unidad de Apoyo Socioemocional</span>
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -19,11 +22,9 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
-                    <li class="nav-item"><a class="nav-link" href="enfermeria.html">Enfermería</a></li>
                     <li class="nav-item"><a class="nav-link" href="psicologia.html">Psicología</a></li>
                     <li class="nav-item"><a class="nav-link active" href="consejeria.html">Consejería</a></li>
                     <li class="nav-item"><a class="nav-link" href="trabajo_social.html">Trabajo Social</a></li>
-                    <li class="nav-item"><a class="nav-link" href="citas.html">Citas</a></li>
                     <li class="nav-item"><a class="nav-link" href="contacto.html">Contacto</a></li>
                 </ul>
             </div>
@@ -205,11 +206,13 @@
 
     <footer class="bg-light text-center py-4 mt-5">
         <div class="container">
-            <p class="mb-0">&copy; 2025 Unidad de Salud Escolar. Todos los derechos reservados.</p>
+            <p class="mb-0">&copy; 2026 Unidad de Apoyo Socioemocional. Todos los derechos reservados.</p>
         </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script src="js/emailjs-config.js"></script>
     <script src="js/scripts.js"></script>
 </body>
 </html>

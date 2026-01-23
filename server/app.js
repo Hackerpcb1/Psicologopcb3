@@ -77,21 +77,86 @@ app.post('/api/medicamentos/solicitar', async (req, res) => {
 
 // --- ENDPOINT: CREAR CITA ---
 app.post('/api/citas', async (req, res) => {
-    const { tipoServicio, profesional, fechaHora, email } = req.body;
+    const { tipoServicio, profesional, fechaHora, email, nombre, telefono, motivoConsulta } = req.body;
     if (!tipoServicio || !profesional || !fechaHora || !email) {
         return res.status(400).json({ error: 'Faltan campos requeridos' });
     }
 
+    // Mapeo de profesionales a correos electrónicos
+    const correoProfesionales = {
+        'psicologo3': 'de161266@miescuela.pr',
+        'enfermera1': 'enfermeria@unidadsalud.edu',
+        'consejera1': 'consejera1@unidadsalud.edu',
+        'consejera2': 'consejera2@unidadsalud.edu',
+        'ts1': 'trabajosocial1@unidadsalud.edu',
+        'trabajadora social2': 'trabajosocial2@unidadsalud.edu'
+    };
+
     try {
+        // Guardar en base de datos
         await db.collection('citas').add({
             tipoServicio,
             profesional,
             fechaHora,
             email,
+            nombre,
+            telefono,
+            motivoConsulta,
             fechaCreacion: admin.firestore.FieldValue.serverTimestamp()
         });
 
-        res.json({ message: 'Cita creada con éxito en la base de datos' });
+        // Enviar correo al profesional
+        const correoProfesional = correoProfesionales[profesional];
+        if (correoProfesional && process.env.SENDGRID_API_KEY) {
+            const msg = {
+                to: correoProfesional,
+                from: 'noreply@unidadsalud.edu',
+                subject: `Nueva Solicitud de Cita - ${tipoServicio}`,
+                html: `
+                    <h2>Nueva Solicitud de Cita</h2>
+                    <p><strong>Servicio:</strong> ${tipoServicio}</p>
+                    <p><strong>Profesional:</strong> ${profesional}</p>
+                    <p><strong>Fecha y Hora:</strong> ${fechaHora}</p>
+                    <p><strong>Nombre del Estudiante:</strong> ${nombre || 'No proporcionado'}</p>
+                    <p><strong>Email:</strong> ${email}</p>
+                    <p><strong>Teléfono:</strong> ${telefono || 'No proporcionado'}</p>
+                    <p><strong>Motivo de Consulta:</strong> ${motivoConsulta || 'No especificado'}</p>
+                `
+            };
+
+            try {
+                await sgMail.send(msg);
+            } catch (emailError) {
+                console.error('Error enviando correo:', emailError);
+                // No fallar la solicitud si el correo falla
+            }
+        }
+
+        // Enviar correo de confirmación al estudiante
+        if (process.env.SENDGRID_API_KEY) {
+            const msgEstudiante = {
+                to: email,
+                from: 'noreply@unidadsalud.edu',
+                subject: 'Confirmación de Solicitud de Cita',
+                html: `
+                    <h2>Solicitud de Cita Recibida</h2>
+                    <p>Estimado/a ${nombre || 'estudiante'},</p>
+                    <p>Hemos recibido su solicitud de cita con los siguientes detalles:</p>
+                    <p><strong>Servicio:</strong> ${tipoServicio}</p>
+                    <p><strong>Fecha y Hora Solicitada:</strong> ${fechaHora}</p>
+                    <p>El profesional se pondrá en contacto con usted para confirmar la cita.</p>
+                    <p>Gracias,<br>Unidad de Apoyo Socioemocional</p>
+                `
+            };
+
+            try {
+                await sgMail.send(msgEstudiante);
+            } catch (emailError) {
+                console.error('Error enviando correo de confirmación:', emailError);
+            }
+        }
+
+        res.json({ message: 'Cita creada con éxito. Se han enviado las notificaciones por correo.' });
     } catch (error) {
         console.error('Error creando cita:', error);
         res.status(500).json({ error: 'Error interno del servidor' });

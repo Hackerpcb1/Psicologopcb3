@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Contacto - Unidad de Salud Escolar</title>
+    <title>Contacto - Unidad de Apoyo Socioemocional</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
     <link rel="stylesheet" href="css/styles.css" />
@@ -11,7 +11,10 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
         <div class="container">
-            <a class="navbar-brand" href="index.html">Unidad de Salud Escolar</a>
+            <a class="navbar-brand d-flex align-items-center" href="index.html">
+                <img src="galeria/logopcb.png" alt="Logo Escuela" class="logo-navbar me-3">
+                <span>Unidad de Apoyo Socioemocional</span>
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -19,11 +22,9 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
-                    <li class="nav-item"><a class="nav-link" href="enfermeria.html">Enfermería</a></li>
                     <li class="nav-item"><a class="nav-link" href="psicologia.html">Psicología</a></li>
                     <li class="nav-item"><a class="nav-link" href="consejeria.html">Consejería</a></li>
                     <li class="nav-item"><a class="nav-link" href="trabajo_social.html">Trabajo Social</a></li>
-                    <li class="nav-item"><a class="nav-link" href="citas.html">Citas</a></li>
                     <li class="nav-item"><a class="nav-link active" href="contacto.html">Contacto</a></li>
                 </ul>
             </div>
@@ -36,76 +37,181 @@
         </div>
         <h1 class="mb-4">Contacto</h1>
 
-        <div class="row">
-            <div class="col-md-6">
-                <h2>Información de Contacto</h2>
-                <div class="contact-info">
-                    <p><i class="fas fa-phone"></i> <strong>Teléfono de la escuela:</strong> 787-857-2897</p>
-                    <p><i class="fas fa-map-marker-alt"></i> <strong>Dirección física de la escuela:</strong> Carretera 156 salida hacia Comerío, Barranquitas, P. R.</p>
-                     <p><i class="fas fa-map-marker-alt"></i> <strong>Dirección postal de la escuela:</strong> Box 1030 Barranquitas, P. R. 00794</p>
-                </div>
-
-                <button class="btn btn-primary mb-4 px-4 py-2 shadow rounded-pill" type="button" data-bs-toggle="collapse" data-bs-target="#horariosEscuela" aria-expanded="false" aria-controls="horariosEscuela" style="background: linear-gradient(135deg, #0d6efd 0%, #6610f2 100%); border: none; font-weight: bold; font-size: 1rem; transition: all 0.3s ease; box-shadow: 0 2px 10px rgba(13, 110, 253, 0.3);">
-                    <i class="fas fa-clock me-2"></i>Ver Horarios de la Escuela
-                </button>
-
-                <div class="collapse" id="horariosEscuela">
-                    <div class="horarios-info card card-body">
-                        <div id="horarios-lista"></div>
-                    </div>
-                </div>
-
-                <h3 class="mt-4">Envíanos un Mensaje</h3>
-                <form id="form-contacto">
-                    <div class="mb-3">
-                        <label for="nombre" class="form-label">Nombre</label>
-                        <input type="text" class="form-control" id="nombre" name="nombre" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="destinatario" class="form-label">Dirigido a</label>
-                        <select class="form-control" id="destinatario" name="destinatario" required>
-                            <option value="">Seleccione destinatario</option>
-                            <option value="psicologo">Psicólogo Escolar</option>
-                            <option value="enfermera">Enfermera</option>
-                            <option value="trabajo_social">Trabajo Social</option>
-                        </select>
-                    </div>
-                    <p id="correo-destinatario" class="text-muted"></p>
-                    <input type="hidden" id="correo-destinatario-hidden" name="correo_destinatario">
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Tu Correo Electrónico</label>
-                        <input type="email" class="form-control" id="email" name="email" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="asunto" class="form-label">Asunto</label>
-                        <input type="text" class="form-control" id="asunto" name="asunto" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="mensaje" class="form-label">Mensaje</label>
-                        <textarea class="form-control" id="mensaje" name="mensaje" rows="5" required></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Enviar Mensaje</button>
-                </form>
-                <div id="mensaje-contacto" class="mt-3"></div>
-            </div>
-            <div class="col-md-6">
-                <h2>Ubicación</h2>
-                <div class="mb-3">
-                    <form id="form-busqueda-mapa">
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="busqueda-mapa" placeholder="Buscar ubicación en el mapa" required>
-                            <button class="btn btn-outline-secondary" type="submit">Buscar</button>
+        <!-- Información de Contacto -->
+        <div class="row mb-5">
+            <div class="col-lg-8 mx-auto">
+                <div class="card shadow-sm">
+                    <div class="card-body p-4">
+                        <h2 class="mb-4"><i class="fas fa-info-circle me-2"></i>Información de Contacto</h2>
+                        <div class="contact-info">
+                            <p class="mb-3"><i class="fas fa-phone text-primary me-2"></i> <strong>Teléfono de la escuela:</strong> 787-857-2897</p>
+                            <p class="mb-3"><i class="fas fa-map-marker-alt text-danger me-2"></i> <strong>Dirección física de la escuela:</strong> Carretera 156 salida hacia Comerío, Barranquitas, P. R.</p>
+                            <p class="mb-3"><i class="fas fa-envelope text-success me-2"></i> <strong>Dirección postal de la escuela:</strong> Box 1030 Barranquitas, P. R. 00794</p>
                         </div>
-                    </form>
+
+                        <button class="btn btn-primary mt-3 px-4 py-2 shadow rounded-pill" type="button" data-bs-toggle="collapse" data-bs-target="#horariosEscuela" aria-expanded="false" aria-controls="horariosEscuela" style="background: linear-gradient(135deg, #0d6efd 0%, #6610f2 100%); border: none; font-weight: bold; font-size: 1rem; transition: all 0.3s ease; box-shadow: 0 2px 10px rgba(13, 110, 253, 0.3);">
+                            <i class="fas fa-clock me-2"></i>Ver Horarios de la Escuela
+                        </button>
+
+                        <div class="collapse mt-3" id="horariosEscuela">
+                            <div class="horarios-info card card-body bg-light">
+                                <div id="horarios-lista"></div>
+                            </div>
+                        </div>
+
+                        <div class="alert alert-info mt-4 mb-0">
+                            <i class="fas fa-calendar-check me-2"></i>
+                            <strong>Nota:</strong> Para solicitar citas con nuestros profesionales, visite las páginas de cada servicio.
+                        </div>
+                    </div>
                 </div>
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3784.123456789!2d-66.312345!3d18.234567!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8c02b0b0b0b0b0b0%3A0x1234567890abcdef!2sCalle%20Barcelo%20Final%20Sector%20Nuevo%2C%20Barranquitas%2C%20PR!5e0!3m2!1ses!2sus!4v1234567890!5m2!1ses!2sus" width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+
+        <!-- Sección de Profesionales -->
+        <div class="row mt-5">
+            <div class="col-12">
+                <h2 class="mb-4">Nuestro Equipo</h2>
+            </div>
+
+            <!-- Psicología -->
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body text-center">
+                        <div class="mb-3" style="font-size: 3rem; color: #6f42c1;">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h5 class="card-title">Psicología</h5>
+                        <p class="card-text text-muted">Apoyo emocional y desarrollo personal</p>
+                        <a href="psicologia.html" class="btn btn-outline-primary">Ver más</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Consejería -->
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body text-center">
+                        <div class="mb-3" style="font-size: 3rem; color: #0dcaf0;">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <h5 class="card-title">Consejería</h5>
+                        <p class="card-text text-muted">Orientación académica y vocacional</p>
+                        <a href="consejeria.html" class="btn btn-outline-info">Ver más</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Trabajo Social -->
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body text-center">
+                        <div class="mb-3" style="font-size: 3rem; color: #198754;">
+                            <i class="fas fa-hands-helping"></i>
+                        </div>
+                        <h5 class="card-title">Trabajo Social</h5>
+                        <p class="card-text text-muted">Apoyo familiar y comunitario</p>
+                        <a href="trabajo_social.html" class="btn btn-outline-success">Ver más</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Preguntas Frecuentes -->
+        <div class="row mt-5">
+            <div class="col-12">
+                <h2 class="mb-4">Preguntas Frecuentes</h2>
+                <div class="accordion" id="faqAccordion">
+                    <!-- Pregunta 1 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingOne">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                ¿Cómo puedo solicitar una cita?
+                            </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Puede solicitar una cita visitando la página del servicio que necesita (Psicología, Consejería o Trabajo Social) y llenando el formulario de solicitud de cita. También puede comunicarse directamente con la escuela al 787-857-2897.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 2 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingTwo">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                ¿Cuál es el horario de atención?
+                            </button>
+                        </h2>
+                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Nuestro horario de atención es de lunes a viernes de 7:00 a.m. a 2:30 p.m. Los fines de semana y días feriados permanecemos cerrados.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 3 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingThree">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                ¿Los servicios son confidenciales?
+                            </button>
+                        </h2>
+                        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Sí, todos nuestros servicios son completamente confidenciales. La información compartida con nuestros profesionales está protegida y solo se comparte con el consentimiento del estudiante o en casos requeridos por ley.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 4 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingFour">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                ¿Necesito permiso de mis padres para recibir servicios?
+                            </button>
+                        </h2>
+                        <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Para estudiantes menores de edad, generalmente se requiere el consentimiento de los padres o tutores. Sin embargo, en situaciones de emergencia, nuestros profesionales pueden brindar apoyo inmediato y luego contactar a los padres.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 5 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingFive">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                ¿Qué debo hacer en caso de emergencia?
+                            </button>
+                        </h2>
+                        <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                En caso de emergencia durante el horario escolar, diríjase inmediatamente a la oficina principal o comuníquese con cualquier miembro del personal. Fuera del horario escolar, llame al 911 o a la Línea PAS (Primera Ayuda Sicosocial) al 1-800-981-0023.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Líneas de Ayuda -->
+        <div class="row mt-5">
+            <div class="col-12">
+                <div class="alert alert-warning">
+                    <h4 class="alert-heading"><i class="fas fa-phone-volume me-2"></i>Líneas de Ayuda 24/7</h4>
+                    <hr>
+                    <p class="mb-2"><strong>Línea PAS (Primera Ayuda Sicosocial):</strong> 1-800-981-0023</p>
+                    <p class="mb-2"><strong>Línea de Prevención del Suicidio:</strong> 1-888-628-9454</p>
+                    <p class="mb-0"><strong>Emergencias:</strong> 911</p>
+                </div>
             </div>
         </div>
     </main>
 
     <footer class="bg-light text-center py-4 mt-5">
         <div class="container">
-            <p class="mb-0">&copy; 2025 Unidad de Salud Escolar. Todos los derechos reservados.</p>
+            <p class="mb-0">&copy; 2026 Unidad de Apoyo Socioemocional. Todos los derechos reservados.</p>
         </div>
     </footer>
 

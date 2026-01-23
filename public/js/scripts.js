@@ -39,13 +39,40 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // Aquí se puede agregar la lógica para enviar la cita al backend
-            // Por ahora, simulamos éxito
-            mensajeDiv.textContent = 'Cita solicitada con éxito. Recibirá un correo de confirmación.';
-            mensajeDiv.className = 'text-success';
+            // Enviar cita al servidor
+            try {
+                const response = await fetch('http://localhost:3000/api/citas', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        tipoServicio: 'enfermeria',
+                        profesional: 'enfermera1',
+                        fechaHora: data.horaConsulta,
+                        email: data.email,
+                        nombre: data.nombre,
+                        telefono: data.telefono,
+                        motivoConsulta: data.motivoConsulta === 'otro' ? data.otroTipoEnfermeria : data.motivoConsulta
+                    })
+                });
 
-            formEnfermeria.reset();
-            otroTipoDiv.style.display = 'none';
+                const result = await response.json();
+
+                if (response.ok) {
+                    mensajeDiv.textContent = 'Cita solicitada con éxito. Recibirá un correo de confirmación.';
+                    mensajeDiv.className = 'text-success';
+                    formEnfermeria.reset();
+                    otroTipoDiv.style.display = 'none';
+                } else {
+                    mensajeDiv.textContent = result.error || 'Error al solicitar la cita.';
+                    mensajeDiv.className = 'text-danger';
+                }
+            } catch (error) {
+                console.error('Error completo:', error);
+                mensajeDiv.textContent = 'Error: El servidor no está corriendo. Por favor, inicie el servidor con: cd server && npm install && npm start';
+                mensajeDiv.className = 'text-danger';
+            }
         });
     }
 
@@ -96,12 +123,40 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // Simulación de éxito
-            mensajeDiv.textContent = 'Cita solicitada con éxito. Recibirá un correo de confirmación.';
-            mensajeDiv.className = 'text-success';
+            // Enviar cita al servidor
+            try {
+                const response = await fetch('http://localhost:3000/api/citas', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        tipoServicio: 'psicologia',
+                        profesional: data.profesionalConse || 'psicologo3',
+                        fechaHora: data.horaConsultaPsico,
+                        email: data.emailPsico,
+                        nombre: data.nombrePsico,
+                        telefono: data.telefonoPsico,
+                        motivoConsulta: data.tipoConsultaPsico === 'otro' ? data.otroTipo : data.tipoConsultaPsico
+                    })
+                });
 
-            formPsicologia.reset();
-            otroTipoDiv.style.display = 'none';
+                const result = await response.json();
+
+                if (response.ok) {
+                    mensajeDiv.textContent = 'Cita solicitada con éxito. Recibirá un correo de confirmación.';
+                    mensajeDiv.className = 'text-success';
+                    formPsicologia.reset();
+                    otroTipoDiv.style.display = 'none';
+                } else {
+                    mensajeDiv.textContent = result.error || 'Error al solicitar la cita.';
+                    mensajeDiv.className = 'text-danger';
+                }
+            } catch (error) {
+                console.error('Error completo:', error);
+                mensajeDiv.textContent = 'Error: El servidor no está corriendo. Por favor, inicie el servidor con: cd server && npm install && npm start';
+                mensajeDiv.className = 'text-danger';
+            }
         });
     }
 
@@ -121,11 +176,53 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // Simulación de éxito
-            mensajeDiv.textContent = 'Cita solicitada con éxito. Recibirá un correo de confirmación.';
-            mensajeDiv.className = 'text-success';
+            // Determinar configuración de EmailJS basada en el profesional seleccionado
+            let config;
+            console.log('Profesional seleccionado:', data.profesionalConse);
 
-            formConsejeria.reset();
+            if (data.profesionalConse === 'Consejera Sonia I. Cruz Maldonado') {
+                config = emailjsConfig.sonia;
+                console.log('Usando configuración de Sonia:', config);
+            } else if (data.profesionalConse === 'Consejera Maricarmen García Rivera') {
+                config = emailjsConfig.maricarmen;
+                console.log('Usando configuración de Maricarmen:', config);
+            } else {
+                mensajeDiv.textContent = 'Profesional no reconocido: ' + data.profesionalConse;
+                mensajeDiv.className = 'text-danger';
+                return;
+            }
+
+            // Preparar datos para EmailJS - mismo formato para ambas
+            const templateParams = {
+                to_email: config.toEmail,
+                from_name: data.nombreConse,
+                from_email: data.emailConse,
+                telefono: data.telefonoConse,
+                telefono_alterno: data.telefonoAlternoConse || 'No proporcionado',
+                edad: data.edadConse,
+                motivo_consulta: data.motivoConsultaConse,
+                gravedad: data.gravedadConse,
+                profesional: data.profesionalConse,
+                hora_consulta: data.horaConsultaConse
+            };
+
+            console.log('Parámetros del template:', templateParams);
+            console.log('Enviando con Service ID:', config.serviceID, 'Template ID:', config.templateID);
+
+            try {
+                // Enviar email usando EmailJS
+                const response = await emailjs.send(config.serviceID, config.templateID, templateParams, config.publicKey);
+                console.log('Respuesta de EmailJS:', response);
+
+                mensajeDiv.textContent = 'Cita solicitada con éxito. Recibirá un correo de confirmación.';
+                mensajeDiv.className = 'text-success';
+                formConsejeria.reset();
+            } catch (error) {
+                console.error('Error completo al enviar el email:', error);
+                console.error('Detalles del error:', error.text || error.message);
+                mensajeDiv.textContent = 'Error al enviar la solicitud: ' + (error.text || error.message || 'Intente nuevamente.');
+                mensajeDiv.className = 'text-danger';
+            }
         });
     }
 
@@ -166,12 +263,40 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // Simulación de éxito
-            mensajeDiv.textContent = 'Cita solicitada con éxito. Recibirá un correo de confirmación.';
-            mensajeDiv.className = 'text-success';
+            // Enviar cita al servidor
+            try {
+                const response = await fetch('http://localhost:3000/api/citas', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        tipoServicio: 'trabajo_social',
+                        profesional: data.profesionalTS || 'ts1',
+                        fechaHora: data.horaConsultaTS,
+                        email: data.emailTS || 'estudiante@escuela.pr',
+                        nombre: data.nombreTS || 'Estudiante',
+                        telefono: data.telefonoTS || '',
+                        motivoConsulta: data.motivoConsulta === 'otro' ? data.otroMotivoTS : data.motivoConsulta
+                    })
+                });
 
-            formTrabajoSocial.reset();
-            otroMotivoDiv.style.display = 'none';
+                const result = await response.json();
+
+                if (response.ok) {
+                    mensajeDiv.textContent = 'Cita solicitada con éxito. Recibirá un correo de confirmación.';
+                    mensajeDiv.className = 'text-success';
+                    formTrabajoSocial.reset();
+                    otroMotivoDiv.style.display = 'none';
+                } else {
+                    mensajeDiv.textContent = result.error || 'Error al solicitar la cita.';
+                    mensajeDiv.className = 'text-danger';
+                }
+            } catch (error) {
+                console.error('Error completo:', error);
+                mensajeDiv.textContent = 'Error: El servidor no está corriendo. Por favor, inicie el servidor con: cd server && npm install && npm start';
+                mensajeDiv.className = 'text-danger';
+            }
         });
     }
 
@@ -282,4 +407,33 @@ document.addEventListener('DOMContentLoaded', () => {
     window.toggleDescription = function(card) {
         card.classList.toggle('expanded');
     };
+
+    // Slideshow functionality
+    let slideIndex = 0;
+    const slides = document.querySelectorAll('.slide');
+
+    if (slides.length > 0) {
+        // Mostrar la primera imagen inmediatamente
+        slides[0].classList.add('active');
+
+        function showSlides() {
+            // Remover clase active de todas las slides
+            slides.forEach(slide => slide.classList.remove('active'));
+
+            // Incrementar índice
+            slideIndex++;
+            if (slideIndex >= slides.length) {
+                slideIndex = 0;
+            }
+
+            // Mostrar slide actual
+            slides[slideIndex].classList.add('active');
+
+            // Cambiar imagen cada 5 segundos
+            setTimeout(showSlides, 5000);
+        }
+
+        // Iniciar slideshow después de 5 segundos
+        setTimeout(showSlides, 5000);
+    }
 });
