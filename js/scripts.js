@@ -27,25 +27,52 @@ document.addEventListener('DOMContentLoaded', () => {
             const mensajeDiv = document.getElementById('mensaje-enfermeria');
 
             // Validación básica
-            if (!data.nombre || !data.edad || !data.estatura || !data.peso || !data.email || !data.telefono || !data.direccion || !data.tipoConsulta || !data.sintomas || !data.horaConsulta) {
+            if (!data.nombre || !data.edad || !data.estatura || !data.peso || !data.email || !data.telefono || !data.motivoConsulta || !data.gravedad || !data.horaConsulta) {
                 mensajeDiv.textContent = 'Por favor, complete todos los campos.';
                 mensajeDiv.className = 'text-danger';
                 return;
             }
 
-            if (data.tipoConsulta === 'otro' && !data.otroTipoEnfermeria) {
-                mensajeDiv.textContent = 'Por favor, especifique el tipo de consulta.';
+            if (data.motivoConsulta === 'otro' && !data.otroTipoEnfermeria) {
+                mensajeDiv.textContent = 'Por favor, especifique el motivo de la consulta.';
                 mensajeDiv.className = 'text-danger';
                 return;
             }
 
-            // Aquí se puede agregar la lógica para enviar la cita al backend
-            // Por ahora, simulamos éxito
-            mensajeDiv.textContent = 'Cita solicitada con éxito. Recibirá un correo de confirmación.';
-            mensajeDiv.className = 'text-success';
+            // Enviar cita al servidor
+            try {
+                const response = await fetch('http://localhost:3000/api/citas', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        tipoServicio: 'enfermeria',
+                        profesional: 'enfermera1',
+                        fechaHora: data.horaConsulta,
+                        email: data.email,
+                        nombre: data.nombre,
+                        telefono: data.telefono,
+                        motivoConsulta: data.motivoConsulta === 'otro' ? data.otroTipoEnfermeria : data.motivoConsulta
+                    })
+                });
 
-            formEnfermeria.reset();
-            otroTipoDiv.style.display = 'none';
+                const result = await response.json();
+
+                if (response.ok) {
+                    mensajeDiv.textContent = 'Cita solicitada con éxito. Recibirá un correo de confirmación.';
+                    mensajeDiv.className = 'text-success';
+                    formEnfermeria.reset();
+                    otroTipoDiv.style.display = 'none';
+                } else {
+                    mensajeDiv.textContent = result.error || 'Error al solicitar la cita.';
+                    mensajeDiv.className = 'text-danger';
+                }
+            } catch (error) {
+                console.error('Error completo:', error);
+                mensajeDiv.textContent = 'Error: El servidor no está corriendo. Por favor, inicie el servidor con: cd server && npm install && npm start';
+                mensajeDiv.className = 'text-danger';
+            }
         });
     }
 
@@ -75,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const mensajeDiv = document.getElementById('mensaje-psicologia');
 
             // Validación básica
-            if (!data.nombrePsico || !data.edadPsico || !data.emailPsico || !data.telefonoPsico || !data.direccionPsico || !data.tipoConsultaPsico || !data.horaConsultaPsico) {
+            if (!data.nombrePsico || !data.edadPsico || !data.emailPsico || !data.telefonoPsico || !data.tipoConsultaPsico || !data.profesionalConse || !data.horaConsultaPsico) {
                 mensajeDiv.textContent = 'Por favor, complete todos los campos.';
                 mensajeDiv.className = 'text-danger';
                 return;
@@ -91,45 +118,43 @@ document.addEventListener('DOMContentLoaded', () => {
             const selectedDateTime = new Date(data.horaConsultaPsico);
             const dayOfWeek = selectedDateTime.getDay(); // 0=Dom, 1=Lun, 2=Mar, 3=Mie, 4=Jue, 5=Vie, 6=Sab
             if (dayOfWeek === 2 || dayOfWeek === 3 || dayOfWeek === 4) {
-                mensajeDiv.textContent = 'Su cita no pudo ser asignada, ya que el psicólogo está en reunión.';
+                mensajeDiv.textContent = 'La cita no pudo ser asignada, ya que el psicólogo escolar se encuentra en reunión. El servicio está disponible los días lunes y viernes';
                 mensajeDiv.className = 'text-danger';
                 return;
             }
 
+            // Enviar cita al servidor
             try {
-                // Enviar email usando EmailJS
-              const templateParams = {
-    to_email: toEmail,
-    from_name: data.nombreConse,
-    from_email: data.emailConse,
+                const response = await fetch('http://localhost:3000/api/citas', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        tipoServicio: 'psicologia',
+                        profesional: data.profesionalConse || 'psicologo3',
+                        fechaHora: data.horaConsultaPsico,
+                        email: data.emailPsico,
+                        nombre: data.nombrePsico,
+                        telefono: data.telefonoPsico,
+                        motivoConsulta: data.tipoConsultaPsico === 'otro' ? data.otroTipo : data.tipoConsultaPsico
+                    })
+                });
 
-    nombre_completo: data.nombreConse,
-    edad: data.edadConse,
-    correo: data.emailConse, // ✅ ESTE FALTABA
-    telefono: data.telefonoConse,
-    direccion: data.direccionConse,
+                const result = await response.json();
 
-    tipo_consulta: data.tipoConsultaConse,
-
-    especificar_consulta: data.tipoConsultaConse === 'otro'
-        ? data.otroTipoConse
-        : 'No aplica', // ✅ ESTE FALTABA
-
-    consejero: data.consejeroConse,
-    hora_cita: data.horaConsultaConse
-};
-
-
-                await emailjs.send('service_psicologia', 'template_psicologia', templateParams);
-
-                mensajeDiv.textContent = 'Cita solicitada con éxito. Recibirá un correo de confirmación.';
-                mensajeDiv.className = 'text-success';
-
-                formPsicologia.reset();
-                otroTipoDiv.style.display = 'none';
+                if (response.ok) {
+                    mensajeDiv.textContent = 'Cita solicitada con éxito. Recibirá un correo de confirmación.';
+                    mensajeDiv.className = 'text-success';
+                    formPsicologia.reset();
+                    otroTipoDiv.style.display = 'none';
+                } else {
+                    mensajeDiv.textContent = result.error || 'Error al solicitar la cita.';
+                    mensajeDiv.className = 'text-danger';
+                }
             } catch (error) {
-                console.error('Error al enviar el email:', error);
-                mensajeDiv.textContent = 'Error al enviar la solicitud. Por favor, inténtelo nuevamente.';
+                console.error('Error completo:', error);
+                mensajeDiv.textContent = 'Error: El servidor no está corriendo. Por favor, inicie el servidor con: cd server && npm install && npm start';
                 mensajeDiv.className = 'text-danger';
             }
         });
@@ -138,22 +163,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Formulario Consejería
     const formConsejeria = document.getElementById('form-consejeria');
     if (formConsejeria) {
-        // Mostrar/ocultar campo "otro" cuando se selecciona "Otro"
-        const tipoConsultaSelect = formConsejeria.tipoConsultaConse;
-        const otroTipoDiv = document.getElementById('otroTipoConseDiv');
-        const otroTipoInput = document.getElementById('otroTipoConse');
-
-        tipoConsultaSelect.addEventListener('change', () => {
-            if (tipoConsultaSelect.value === 'otro') {
-                otroTipoDiv.style.display = 'block';
-                otroTipoInput.required = true;
-            } else {
-                otroTipoDiv.style.display = 'none';
-                otroTipoInput.required = false;
-                otroTipoInput.value = '';
-            }
-        });
-
         formConsejeria.addEventListener('submit', async (e) => {
             e.preventDefault();
             const formData = new FormData(formConsejeria);
@@ -161,70 +170,57 @@ document.addEventListener('DOMContentLoaded', () => {
             const mensajeDiv = document.getElementById('mensaje-consejeria');
 
             // Validación básica
-            if (!data.nombreConse || !data.edadConse || !data.emailConse || !data.telefonoConse || !data.direccionConse || !data.tipoConsultaConse || !data.consejeroConse || !data.horaConsultaConse) {
+            if (!data.nombreConse || !data.edadConse || !data.emailConse || !data.telefonoConse || !data.motivoConsultaConse || !data.gravedadConse || !data.profesionalConse || !data.horaConsultaConse) {
                 mensajeDiv.textContent = 'Por favor, complete todos los campos.';
                 mensajeDiv.className = 'text-danger';
                 return;
             }
 
-            if (data.tipoConsultaConse === 'otro' && !data.otroTipoConse) {
-                mensajeDiv.textContent = 'Por favor, especifique el tipo de consulta.';
+            // Determinar configuración de EmailJS basada en el profesional seleccionado
+            let config;
+            console.log('Profesional seleccionado:', data.profesionalConse);
+
+            if (data.profesionalConse === 'Consejera Sonia I. Cruz Maldonado') {
+                config = emailjsConfig.sonia;
+                console.log('Usando configuración de Sonia:', config);
+            } else if (data.profesionalConse === 'Consejera Maricarmen García Rivera') {
+                config = emailjsConfig.maricarmen;
+                console.log('Usando configuración de Maricarmen:', config);
+            } else {
+                mensajeDiv.textContent = 'Profesional no reconocido: ' + data.profesionalConse;
                 mensajeDiv.className = 'text-danger';
                 return;
             }
 
+            // Preparar datos para EmailJS - mismo formato para ambas
+            const templateParams = {
+                to_email: config.toEmail,
+                from_name: data.nombreConse,
+                from_email: data.emailConse,
+                telefono: data.telefonoConse,
+                telefono_alterno: data.telefonoAlternoConse || 'No proporcionado',
+                edad: data.edadConse,
+                motivo_consulta: data.motivoConsultaConse,
+                gravedad: data.gravedadConse,
+                profesional: data.profesionalConse,
+                hora_consulta: data.horaConsultaConse
+            };
+
+            console.log('Parámetros del template:', templateParams);
+            console.log('Enviando con Service ID:', config.serviceID, 'Template ID:', config.templateID);
+
             try {
-                let service, template, publicKey, toEmail;
-
-                if (data.consejeroConse === 'Maricarmen García Rivera') {
-                    service = 'service_tl36rip';
-                    template = 'template_pck97ew';
-                    publicKey = 'SCqXLNS1v8MCpsAit';
-                    toEmail = 'maricarmenpcb@gmail.com';
-                } else if (data.consejeroConse === 'Sonia I. Cruz Maldonado') {
-                    service = 'service_consejeria';
-                    template = 'template_consejeria';
-                    publicKey = 'YOUR_PUBLIC_KEY'; // Replace with actual public key for Sonia
-                    toEmail = 'DE58390@miescuela.pr';
-                }
-
-                // Initialize EmailJS with the appropriate public key
-                emailjs.init(publicKey);
-
                 // Enviar email usando EmailJS
-              const templateParams = {
-    to_email: toEmail,
-    from_name: data.nombreConse,
-    from_email: data.emailConse,
-
-    nombre_completo: data.nombreConse,
-    edad: data.edadConse,
-    correo: data.emailConse,
-    telefono: data.telefonoConse,
-    direccion: data.direccionConse,
-
-    tipo_consulta: data.tipoConsultaConse === 'otro'
-        ? data.otroTipoConse
-        : data.tipoConsultaConse,
-
-    consejero: data.consejeroConse,
-    hora_cita: data.horaConsultaConse
-};
-
-
-
-                await emailjs.send(service, template, templateParams);
-
-
+                const response = await emailjs.send(config.serviceID, config.templateID, templateParams, config.publicKey);
+                console.log('Respuesta de EmailJS:', response);
 
                 mensajeDiv.textContent = 'Cita solicitada con éxito. Recibirá un correo de confirmación.';
                 mensajeDiv.className = 'text-success';
-
                 formConsejeria.reset();
-                otroTipoDiv.style.display = 'none';
             } catch (error) {
-                console.error('Error al enviar el email:', error);
-                mensajeDiv.textContent = 'Error al enviar la solicitud. Por favor, inténtelo nuevamente.';
+                console.error('Error completo al enviar el email:', error);
+                console.error('Detalles del error:', error.text || error.message);
+                mensajeDiv.textContent = 'Error al enviar la solicitud: ' + (error.text || error.message || 'Intente nuevamente.');
                 mensajeDiv.className = 'text-danger';
             }
         });
@@ -255,7 +251,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = Object.fromEntries(formData);
             const mensajeDiv = document.getElementById('mensaje-trabajo-social');
 
-            if (!data.nombreTS || !data.edadTS || !data.emailTS || !data.telefonoTS || !data.direccionTS || !data.motivoConsulta || !data.trabajadoraSocialTS || !data.horaConsultaTS) {
+            if (!data.motivoConsulta || !data.horaConsultaTS) {
                 mensajeDiv.textContent = 'Por favor, complete todos los campos.';
                 mensajeDiv.className = 'text-danger';
                 return;
@@ -267,33 +263,38 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
+            // Enviar cita al servidor
             try {
-                // Enviar email usando EmailJS
-                const templateParams = {
-                    to_email: 'hackerpcb4@gmail.com',
-                    from_name: data.nombreTS,
-                    from_email: data.emailTS,
-                    service: 'Trabajo Social',
-                    nombre: data.nombreTS,
-                    edad: data.edadTS,
-                    telefono: data.telefonoTS,
-                    telefono_alterno: data.telefonoAlternoTS || 'No especificado',
-                    direccion: data.direccionTS,
-                    motivo_consulta: data.motivoConsulta === 'otro' ? data.otroMotivoTS : data.motivoConsulta,
-                    trabajadora_social: data.trabajadoraSocialTS,
-                    hora_consulta: data.horaConsultaTS
-                };
+                const response = await fetch('http://localhost:3000/api/citas', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        tipoServicio: 'trabajo_social',
+                        profesional: data.profesionalTS || 'ts1',
+                        fechaHora: data.horaConsultaTS,
+                        email: data.emailTS || 'estudiante@escuela.pr',
+                        nombre: data.nombreTS || 'Estudiante',
+                        telefono: data.telefonoTS || '',
+                        motivoConsulta: data.motivoConsulta === 'otro' ? data.otroMotivoTS : data.motivoConsulta
+                    })
+                });
 
-                await emailjs.send('service_trabajo_social', 'template_trabajo_social', templateParams);
+                const result = await response.json();
 
-                mensajeDiv.textContent = 'Cita solicitada con éxito. Recibirá un correo de confirmación.';
-                mensajeDiv.className = 'text-success';
-
-                formTrabajoSocial.reset();
-                otroMotivoDiv.style.display = 'none';
+                if (response.ok) {
+                    mensajeDiv.textContent = 'Cita solicitada con éxito. Recibirá un correo de confirmación.';
+                    mensajeDiv.className = 'text-success';
+                    formTrabajoSocial.reset();
+                    otroMotivoDiv.style.display = 'none';
+                } else {
+                    mensajeDiv.textContent = result.error || 'Error al solicitar la cita.';
+                    mensajeDiv.className = 'text-danger';
+                }
             } catch (error) {
-                console.error('Error al enviar el email:', error);
-                mensajeDiv.textContent = 'Error al enviar la solicitud. Por favor, inténtelo nuevamente.';
+                console.error('Error completo:', error);
+                mensajeDiv.textContent = 'Error: El servidor no está corriendo. Por favor, inicie el servidor con: cd server && npm install && npm start';
                 mensajeDiv.className = 'text-danger';
             }
         });
@@ -408,23 +409,31 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // Slideshow functionality
+    let slideIndex = 0;
     const slides = document.querySelectorAll('.slide');
-    let currentSlide = 0;
 
-    function showSlide(index) {
-        slides.forEach((slide, i) => {
-            slide.classList.toggle('active', i === index);
-        });
-    }
-
-    function nextSlide() {
-        currentSlide = (currentSlide + 1) % slides.length;
-        showSlide(currentSlide);
-    }
-
-    // Initialize slideshow
     if (slides.length > 0) {
-        showSlide(currentSlide);
-        setInterval(nextSlide, 5000); // Change slide every 5 seconds
+        // Mostrar la primera imagen inmediatamente
+        slides[0].classList.add('active');
+
+        function showSlides() {
+            // Remover clase active de todas las slides
+            slides.forEach(slide => slide.classList.remove('active'));
+
+            // Incrementar índice
+            slideIndex++;
+            if (slideIndex >= slides.length) {
+                slideIndex = 0;
+            }
+
+            // Mostrar slide actual
+            slides[slideIndex].classList.add('active');
+
+            // Cambiar imagen cada 5 segundos
+            setTimeout(showSlides, 5000);
+        }
+
+        // Iniciar slideshow después de 5 segundos
+        setTimeout(showSlides, 5000);
     }
 });
